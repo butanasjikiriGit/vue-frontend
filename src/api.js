@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const api = axios.create({
-	baseURL: import.meta.env.VITE_APP_API
+	baseURL: "https://express-backend-1ad8.onrender.com"
 });
 
 
