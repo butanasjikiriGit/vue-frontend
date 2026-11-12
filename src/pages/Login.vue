@@ -82,7 +82,7 @@
 						</div>
 						<div class="text-box">
 							<input type="password" id="password" v-model="password" required placeholder="">
-							<label for="password"><i class="bi bi-key-fill"></i> Password</label>
+							<label for="password"><i class="bi bi-lock-fill"></i> Password</label>
 						</div>
 						<button class="btn btn-primary" v-if="isEnabled" :disabled="isLoading">{{isLoading ? 'Logging In....' : 'Login'}}<i class="bi bi-box-arrow-in-right"></i></button>
 						<button class="btn btn-danger" disabled v-else>Login<i class="bi bi-exclamation-triangle"></i></button>
