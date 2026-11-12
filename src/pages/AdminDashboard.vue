@@ -14,28 +14,25 @@
 		<div class="row">
 			<div class="col-12 d-flex justify-content-center align-items-center">
 				<div class="user-box w-100">
-					<h3 v-if="!users" class="text-center text-primary">No available user</h3>
-					<table v-else class="table border w-100 text-center">
+					<table class="table border w-100 text-center">
 						<thead>
 							<tr>
-								<th>Full name</th>
-								<th>Email</th>
-								<th>Mobile Number</th>
-								<th>Role</th>
-								<th>Status</th>
-								<th>Black List</th>
-								<th>Action</th>
+								<th><i class="bi bi-people-fill"></i> Operators</th>
+								<th><i class="bi bi-people-fill"></i> Renters</th>
+								<th><i class="bi bi-hourglass-split"></i> Pending</th>
+								<th><i class="bi bi-person-x-fill"></i> Rejected</th>
+								<th><i class="bi bi-check-circle-fill"></i> Approved</th>
+								<th><i class="bi bi-person-x"></i> Black List</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="user in users" :key="user._id">
-								<td>{{user.firstName}} {{user.lastName}}</td>
-								<td>{{user.email}}</td>
-								<td>{{user.mobileNum}}</td>
-								<td>{{user.role}}</td>
-								<td>{{user.status}}</td>
-								<td>{{user.isBlackListed ? 'Black listed' : 'Not Black listed'}}</td>
-								<td><button @click.prevent="deleteUser(user._id)" class="btn btn-danger">Delete</button> <button class="btn btn-primary">Edit</button></td>
+							<tr>
+								<td>{{operators}}</td>
+								<td>{{renters}}</td>
+								<td>{{pending}}</td>
+								<td>{{rejected}}</td>
+								<td>{{approved}}</td>
+								<td>{{blackList}}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -64,6 +61,13 @@
 	})
 
 	const users = ref([]);
+	const operators = ref(0);
+	const renters = ref(0);
+	const pending = ref(0);
+	const rejected = ref(0);
+	const approved = ref(0);
+	const blackList = ref(0);
+
 
 
 
@@ -72,44 +76,20 @@
 		try {
 
 			let response = await api.get('/users/all-users');
-			users.value = response.data.users
+			users.value = response.data.users;
+			operators.value = users.value.filter(user => user.role === 'operator').length;
+			renters.value = users.value.filter(user => user.role === 'renter').length;
+			pending.value = users.value.filter(user => user.status === 'pending').length;
+			rejected.value = users.value.filter(user => user.status === 'rejected').length;
+			approved.value = users.value.filter(user => user.status === 'approved').length;
+			blackList.value = users.value.filter(user => user.isBlackListed === true).length;
 
 		} catch (err) {
+
 			console.error(err)
+
 			notyf.error('Failed to fetch user data');
-		}
-	}
-
-
-
-
-	async function deleteUser(userId) {
-		try {
-
-			let response = await api.delete(`/users/${userId}`);
-
-			if (response.status === 200){
-
-				notyf.success(response.data.message);
-
-			}
-
-			fetchUser();
-
-		} catch (err) {
-
-			console.error(err);
-
-			if (err.response?.status === 400){
-
-				notyf.error(err.response.data.message || 'Deletion Failed');
-
-			} else {
-
-				notyf.error('Internal Server Error');
-
-			}
-
+			
 		}
 	}
 

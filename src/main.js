@@ -32,7 +32,12 @@ const router = createRouter({
 			path: '/register',
 			name: 'register',
 			component: Register
-		}
+		},
+		{
+			path: '/manage-user',
+			name: 'manage-user',
+			component: ManageUsers
+		},
 	]
 })
 
@@ -42,6 +47,7 @@ const router = createRouter({
 import Login from './pages/Login.vue';
 import Home from './pages/Home.vue';
 import Register from './pages/Register.vue';
+import ManageUsers from './pages/ManageUsers.vue';
 
 
 

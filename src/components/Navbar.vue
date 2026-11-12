@@ -18,7 +18,8 @@
 	        <button @click.prevent="handleLogout" class="nav-link" href="#">Logout</button>
 	      </div>
 	       <div class="navbar-nav ms-auto" v-else-if="user.token && user.isAdmin">
-	        <router-link to="/login" class="nav-link" href="#">Manage users</router-link>
+	        <router-link to="/home" class="nav-link" href="#">Dashboard</router-link>
+	        <router-link to="/manage-user" class="nav-link" href="#">Manage users</router-link>
 	        <button @click.prevent="handleLogout" class="nav-link" href="#">Logout</button>
 	      </div>
 	      <div class="navbar-nav ms-auto" v-else>
