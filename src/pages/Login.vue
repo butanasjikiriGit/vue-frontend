@@ -84,7 +84,7 @@
 							<input type="password" id="password" v-model="password" required placeholder="">
 							<label for="password"><i class="bi bi-key"></i> Password</label>
 						</div>
-						<button class="btn btn-primary" v-if="isEnabled">Login<i class="bi bi-box-arrow-in-right"></i></button>
+						<button class="btn btn-primary" v-if="isEnabled" :disabled="isLoading">{{isLoading ? 'Logging In....' : 'Login'}}<i class="bi bi-box-arrow-in-right"></i></button>
 						<button class="btn btn-danger" disabled v-else>Login<i class="bi bi-exclamation-triangle"></i></button>
 						<hr>
 						<div class="text-center">
@@ -122,6 +122,7 @@
 	const email = ref('');
 	const password = ref('');
 	const isEnabled = ref(false);
+	const isLoading = ref(false);
 
 
 
@@ -141,6 +142,9 @@
 				notyf.error('Invalid email format');
 				return;
 			}
+
+
+			isLoading.value = true;
 
 
 			let response = await api.post('/users/login', {
@@ -165,6 +169,10 @@
 
 			console.error(err);
 			notyf.error('Invalid email and password');
+
+		} finally {
+
+			isLoading.value = false;
 
 		}
 	}
